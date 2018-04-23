@@ -1,0 +1,7 @@
+images
+*.pyc
+*#
+*~
+*.png
+*.jpg
+*.jpeg
