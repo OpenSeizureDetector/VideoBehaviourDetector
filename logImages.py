@@ -15,7 +15,7 @@ outDir = "./images"
 
 if (os.path.exists(outDir)):
     if (os.path.isdir(outDir)):
-        print "Output Directory already exists - OK"
+        print "Output Directory %s already exists - OK" % outDir
     else:
         print "ERROR:  %s exists, but is not a Directory" % outDir
         exit(-1)
@@ -29,11 +29,11 @@ while True:
     frame = getImage()
     if frame is None:
         print 'Error Retrieving Image'
-        exit(-1)
+        #exit(-1)
     else:
         tVal = datetime.datetime.now()
-        fname = "img_%s.png" % (tVal.strftime("%Y%d%m%H%M%S"))
+        fname = "img_%s.png" % (tVal.strftime("%Y%m%d%H%M%S"))
         print "fname=%s" % (fname)
         cv2.imwrite(os.path.join(outDir,fname),frame)
         
-    time.sleep(60)
+    time.sleep(10)

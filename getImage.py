@@ -9,7 +9,7 @@ import urllib
 import httplib2                     # Needed to communicate with camera
 import numpy as np
 import time
-
+import sys
 
 def getImage():
     """ Use HTTP GET request to retrieve a jpeg image from the camera.
