@@ -15,6 +15,7 @@ import cv2
 import random
 from getImage import getImage
 import time
+import os, sys
 
 # Size of image to use (input images are scaled to this size)
 # Note that I THINK this has to be the same as was used to train the model.
@@ -75,19 +76,53 @@ if not args['live']:
         random.seed(42)
         random.shuffle(imagePaths)
 
+        nNorm = 0
+        nNormErr = 0
+        nOdd = 0
+        nOddErr = 0
+        
         # loop over the input images
         for imagePath in imagePaths:
-                print("imagePath=%s" % imagePath)
                 # load the image, 
                 image = cv2.imread(imagePath)
                 odd,outimg = classifyImage(model,image,args['gui'])
-                if (args['gui']): cv2.waitKey(1000)
-                if (odd>0.5):
-                        label = "**** ODD *****"
+                if (args['gui']):
+                        cv2.waitKey(1000)
+                        if (odd>0.5):
+                                label = "**** ODD *****"
+                        else:
+                                label = "Normal"
+                        label = "{}: P(odd)={:.0f}%".format(label, odd * 100)
+                        print("imagePath=%s" % imagePath)
+                        print (label)
                 else:
-                        label = "Normal"
-                label = "{}: P(odd)={:.0f}%".format(label, odd * 100)
-                print (label)
+                        sys.stdout.write(".")
+                        sys.stdout.flush()
+                # We expect all images to be in a directory named its
+                # class name (e.g. 'normal' or 'odd'
+                imgClass = imagePath.split(os.path.sep)[-2]
+                if (imgClass == 'odd'):
+                        nOdd+=1
+                        if (odd<0.5):  nOddErr+=1
+                if (imgClass == 'normal'):
+                        nNorm+=1
+                        if (odd>=0.5): nNormErr+=1
+
+        print ("")
+        print ("************************")
+        print ("*     RESULTS          *")
+        print ("************************")
+        print ("")
+        print ("Number of Odd Images Tested = %d" % nOdd)
+        print ("Number of Odd Image Errors  = %d" % nOddErr)
+        if (nOdd>0):
+                print ("  Odd Detection Reliability = %d%%" % (100-int(100*nOddErr/nOdd))) 
+        print ("")
+        print ("Number of Normal Images Tested = %d" % nNorm)
+        print ("Number of Normal Image Errors  = %d" % nNormErr)
+        if (nNorm>0):
+                print ("  Normal Detection Reliability = %d%%" % (100-int(100*nNormErr/nNorm)))
+        print ("")
 
 else:
         while True:
