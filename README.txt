@@ -6,11 +6,40 @@ The idea is that if we detect odd behaviour for an extended period (10-20 sec?)
 that this may be indicative of a partial seizure.
 
 We are using a neural network to determine whether an image is 'normal' or 'odd'
+The method is based on the 'santa/no-santa' example at https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
 
+The main change I have made is to increase the image size to 100x100 pixels, because any smaller than that and I could not detect Benjamin in the image, so didn't think the computer would manage.
+
+INSTALLATION
+============
+This uses the python keras and tensorflow libraries.
+A clean installation of Ubuntu 18.04 needs the following to get it working
+(note that Ubuntu 18.04 comes with OpenCV V3.x, so worth using that LTS version now).
+Note that I install mroe dependencies than you erally need below - some of it is my standard development set-up.
+
+    1  sudo apt-get update
+    2  sudo apt-get install build-essential git subversion mercurial cmake python-opencv python-opencv-apps 
+    3  sudo apt-get install python-matplotlib python-scipy python-scikits-learn 
+       sudo apt-get install python-httplib2
+8  sudo apt-get install python-pip
+   	sudo pip install imutils
+    9  sudo pip install keras
+   17  sudo apt-get install emacs25
+   11  sudo pip install tensorflow
+    5  mkdir OpenSeizureDetector
+   12  cd OpenSeizureDetector/
+   13  git clone https://github.com/OpenSeizureDetector/VideoBehaviourDetector.git
+   14  cd VideoBehaviourDetector/
+
+
+Training the Network
+====================
 But first we have to train the neural network with example images.....
 
 Proportion of negative (=normal) samples compared to positive (odd) ones
 should be 16 to 18% (ie a lot less normal ones than odd):  https://pdfs.semanticscholar.org/235d/cf221298ae74252b10ef3f69acd4f7e1585f.pdf
+
+But I have ignored this and used two normal for each odd image below.....
 
 Training Results, 29apr2018
 ===========================
@@ -33,3 +62,4 @@ Number of Odd Image Errors  = 38
 Number of Normal Images Tested = 12547
 Number of Normal Image Errors  = 870
   Normal Detection Reliability = 94%
+
