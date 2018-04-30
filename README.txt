@@ -17,19 +17,19 @@ A clean installation of Ubuntu 18.04 needs the following to get it working
 (note that Ubuntu 18.04 comes with OpenCV V3.x, so worth using that LTS version now).
 Note that I install mroe dependencies than you erally need below - some of it is my standard development set-up.
 
-    1  sudo apt-get update
-    2  sudo apt-get install build-essential git subversion mercurial cmake python-opencv python-opencv-apps 
-    3  sudo apt-get install python-matplotlib python-scipy python-scikits-learn 
+       sudo apt-get update
+       sudo apt-get install build-essential git subversion mercurial cmake python-opencv python-opencv-apps 
+       sudo apt-get install python-matplotlib python-scipy python-scikits-learn 
        sudo apt-get install python-httplib2
 8  sudo apt-get install python-pip
    	sudo pip install imutils
-    9  sudo pip install keras
-   17  sudo apt-get install emacs25
-   11  sudo pip install tensorflow
-    5  mkdir OpenSeizureDetector
-   12  cd OpenSeizureDetector/
-   13  git clone https://github.com/OpenSeizureDetector/VideoBehaviourDetector.git
-   14  cd VideoBehaviourDetector/
+       sudo pip install keras
+       sudo apt-get install emacs25
+       sudo pip install tensorflow
+       mkdir OpenSeizureDetector
+       cd OpenSeizureDetector/
+       git clone https://github.com/OpenSeizureDetector/VideoBehaviourDetector.git
+       cd VideoBehaviourDetector/
 
 
 Training the Network

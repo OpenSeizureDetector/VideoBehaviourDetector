@@ -86,6 +86,8 @@ args = vars(ap.parse_args())
 EPOCHS = 25
 INIT_LR = 1e-3
 BS = 32
+# Suppress Tensorflow debugging warnings (because we get lots about memory)
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # Size of image to use (input images are scaled to this size)
 IM_SIZE = (100,100)
