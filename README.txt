@@ -21,11 +21,12 @@ Note that I install mroe dependencies than you erally need below - some of it is
        sudo apt-get install build-essential git subversion mercurial cmake python-opencv python-opencv-apps 
        sudo apt-get install python-matplotlib python-scipy python-scikits-learn 
        sudo apt-get install python-httplib2
-8  sudo apt-get install python-pip
-   	sudo pip install imutils
+       sudo apt-get install python-pip
+       sudo pip install imutils
        sudo pip install keras
        sudo apt-get install emacs25
        sudo pip install tensorflow
+       pip install bottle
        mkdir OpenSeizureDetector
        cd OpenSeizureDetector/
        git clone https://github.com/OpenSeizureDetector/VideoBehaviourDetector.git
