@@ -39,7 +39,7 @@ def classifyImage(model,image,gui=False):
 
         # build the label
         label = "Odd" if odd > normal else "Normal"
-        label = "{}: P(odd)={:.1f}%".format(label, odd * 100)
+        label = "{}: P={:.1f}%".format(label, odd * 100)
 
         # draw the label on the image
         output = imutils.resize(orig, width=400)
@@ -101,10 +101,10 @@ if not args['live']:
                 # We expect all images to be in a directory named its
                 # class name (e.g. 'normal' or 'odd'
                 imgClass = imagePath.split(os.path.sep)[-2]
-                if (imgClass == 'odd'):
+                if (imagePath.find('Odd')!=-1):
                         nOdd+=1
                         if (odd<0.5):  nOddErr+=1
-                if (imgClass == 'normal'):
+                else:
                         nNorm+=1
                         if (odd>=0.5): nNormErr+=1
 

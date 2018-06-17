@@ -69,10 +69,12 @@ def initialiseModel(width, height, depth, classes):
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-o", "--oddset", required=True,
-	help="path to odd examples dataset")
-ap.add_argument("-n", "--normalset", required=True,
-	help="path to normal examples dataset")
+#ap.add_argument("-o", "--oddset", required=True,
+#	help="path to odd examples dataset")
+#ap.add_argument("-n", "--normalset", required=True,
+#	help="path to normal examples dataset")
+ap.add_argument("-i", "--imageDir", required=True,
+	help="path to directory of images - can be a tree structure but the final two folders in each branch should be 'Normal' and 'Odd'")
 ap.add_argument("-m", "--model", required=True,
 	help="path to output model")
 ap.add_argument("-r", "--ratio", required=False,
@@ -93,21 +95,31 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 IM_SIZE = (100,100)
 
 # initialize the data and labels
-print("[INFO] loading images - oddset=%s" % args["oddset"])
+print("[INFO] loading images - imageDir=%s" % args["imageDir"])
 data = []
 labels = []
 
 # grab the image paths and randomly shuffle them
-oddImagePaths = sorted(list(paths.list_images(args["oddset"])))
-normalImagePathsAll = sorted(list(paths.list_images(args["normalset"])))
+oddImagePaths = []
+normalImagePathsAll = []
+allImagePaths = sorted(list(paths.list_images(args["imageDir"])))
+for imPath in allImagePaths:
+        if (imPath.find("Odd")!=-1):
+                oddImagePaths.append(imPath)
+        else:
+                normalImagePathsAll.append(imPath)
+
+#for imPath in oddImagePaths:
+#        print imPath
+#for imPath in normalImagePathsAll:
+#        print imPath
+#exit(-1)
+
 random.seed(42)
 random.shuffle(oddImagePaths)
 random.shuffle(normalImagePathsAll)
 
 normalImagePaths=[]
-
-#print oddImagePaths
-print("len(oddImagePaths)=%d" % (len(oddImagePaths)))
 
 # Create a set of normal images from the available ones.
 if (args['ratio']==None):
@@ -121,8 +133,12 @@ while (len(normalImagePaths)<len(oddImagePaths)*normFactor):
         #print normalImagePaths
         normalImagePathsAll = normalImagePathsAll[1:]
 
-print("len(normalImagePaths)=%d" % (len(normalImagePaths)))
 #print(oddImagePaths, normalImagePaths)
+
+#print oddImagePaths
+print("Using %d Odd images" % (len(oddImagePaths)))
+print("Using %d Normal images" % (len(normalImagePaths)))
+
 # Merge the normal and odd image lists
 imagePaths = oddImagePaths
 imagePaths.extend(normalImagePaths)
@@ -141,8 +157,10 @@ for imagePath in imagePaths:
 
 	# extract the class label from the image path and update the
 	# labels list
-	label = imagePath.split(os.path.sep)[-2]
-	label = 1 if label == "odd" else 0
+	if (imagePath.find("Odd") <> -1):
+                label = 1
+        else:
+                label = 0
 	labels.append(label)
 
 # scale the raw pixel intensities to the range [0, 1]
